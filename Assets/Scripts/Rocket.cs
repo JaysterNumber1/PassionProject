@@ -9,6 +9,7 @@ public class Rocket : MonoBehaviour
     public GameObject player;
     public Rigidbody2D rb;
     public Vector2 dir;
+    public float speed;
 
     // Start is called before the first frame update
     void Awake()
@@ -35,7 +36,7 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rb.AddForce(dir);
+        rb.AddForce(dir*speed);
         
     }
 }
