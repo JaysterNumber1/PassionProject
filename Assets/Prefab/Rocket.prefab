@@ -76,8 +76,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rocket: {fileID: 994646742700445049}
-  player: {fileID: 7116183618424984890, guid: e64b4babff177024392edb29aa94a530, type: 3}
+  player: {fileID: 0}
   rb: {fileID: 4010796633323729805}
+  pos: {x: 0, y: 0}
 --- !u!50 &4010796633323729805
 Rigidbody2D:
   serializedVersion: 4

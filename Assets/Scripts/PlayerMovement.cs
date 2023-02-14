@@ -81,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (click == 1)
         {
-            Instantiate(rocket, transform.position, Quaternion.identity);
+            Instantiate(rocket, player.transform.position, Quaternion.identity);
             click = 0;
         }
     }

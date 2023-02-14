@@ -8,26 +8,34 @@ public class Rocket : MonoBehaviour
     public GameObject rocket;
     public GameObject player;
     public Rigidbody2D rb;
-    public Vector2 pos;
+    public Vector2 dir;
 
     // Start is called before the first frame update
     void Awake()
     {
 
 
-        input = new Input();
-        input.Enable();
+     
         rb = GetComponent<Rigidbody2D>();
-       
-        Debug.Log(pos);
-        //rocket.transform.position = player.transform.position;
-        //rocket.transform.eulerAngles = new Vector3(0, 0, 90);
+
+        player = GameObject.Find("Player");
+        dir = player.GetComponent<PlayerMovement>().pos;
+        dir -= new Vector2(Screen.width / 2, Screen.height / 2);
+        //Debug.DrawLine(player.transform.position, dir);
+        //dir.x -= player.transform.position.x;
+        //dir.y -= player.transform.position.y;
+        
+        Debug.Log(dir);
+        dir.Normalize();
+        
+
+        
 
     }
     // Update is called once per frame
     void Update()
     {
-        rb.AddForce(new Vector2(10, 0));
+        rb.AddForce(dir);
         
     }
 }
