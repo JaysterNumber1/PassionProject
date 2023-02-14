@@ -910,7 +910,7 @@ Tilemap:
       - {fileID: 65832893, guid: d0182cbad39b9bc42aacf285402eef39, type: 3}
       - {fileID: 1447613838, guid: d0182cbad39b9bc42aacf285402eef39, type: 3}
       - {fileID: 65832893, guid: d0182cbad39b9bc42aacf285402eef39, type: 3}
-      m_AnimationSpeed: 5
+      m_AnimationSpeed: 5.0000005
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   m_TileAssetArray:
@@ -1839,6 +1839,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7116183618424984888, guid: e64b4babff177024392edb29aa94a530, type: 3}
+      propertyPath: m_Mass
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7116183618424984890, guid: e64b4babff177024392edb29aa94a530, type: 3}
       propertyPath: m_Name
       value: Player (1)
