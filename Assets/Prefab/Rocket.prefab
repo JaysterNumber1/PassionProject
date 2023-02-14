@@ -78,7 +78,8 @@ MonoBehaviour:
   rocket: {fileID: 994646742700445049}
   player: {fileID: 0}
   rb: {fileID: 4010796633323729805}
-  pos: {x: 0, y: 0}
+  dir: {x: 0, y: 0}
+  speed: 5
 --- !u!50 &4010796633323729805
 Rigidbody2D:
   serializedVersion: 4
