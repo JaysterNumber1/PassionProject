@@ -890,7 +890,7 @@ Tilemap:
       - {fileID: 65832893, guid: d0182cbad39b9bc42aacf285402eef39, type: 3}
       - {fileID: 1447613838, guid: d0182cbad39b9bc42aacf285402eef39, type: 3}
       - {fileID: 65832893, guid: d0182cbad39b9bc42aacf285402eef39, type: 3}
-      m_AnimationSpeed: 5
+      m_AnimationSpeed: 5.0000005
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   m_TileAssetArray:
@@ -9581,6 +9581,27 @@ Transform:
   m_Father: {fileID: 977242404}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2124035569 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2662351198375776563, guid: 40f2eacf88aab3145a481692c70f516f, type: 3}
+  m_PrefabInstance: {fileID: 6801932090485692736}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2124035571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124035569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26a3bf6536624aa46a4a6e73b008093d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightIntensity: 5
+  flickerIntensity: 3
+  lightTime: 3
+  flickerTime: 3
 --- !u!1001 &6801932090485692736
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9595,6 +9616,14 @@ PrefabInstance:
     - target: {fileID: 5414815544629515417, guid: 40f2eacf88aab3145a481692c70f516f, type: 3}
       propertyPath: m_LightVolumeIntensityEnabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528881689077680055, guid: 40f2eacf88aab3145a481692c70f516f, type: 3}
+      propertyPath: m_PointLightInnerAngle
+      value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528881689077680055, guid: 40f2eacf88aab3145a481692c70f516f, type: 3}
+      propertyPath: m_PointLightOuterAngle
+      value: 360
       objectReference: {fileID: 0}
     - target: {fileID: 7279546169039768603, guid: 40f2eacf88aab3145a481692c70f516f, type: 3}
       propertyPath: m_RootOrder
