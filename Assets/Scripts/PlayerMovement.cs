@@ -22,9 +22,15 @@ public class PlayerMovement : MonoBehaviour
     public float click;
     public Vector2 pos;
     [SerializeField] private bool isGrounded;
+    //[SerializeField] private bool isLeftWall;
+    //[SerializeField] private bool isRightWall;
 
     public float maxWalkSpeed;
     public float maxSpeed;
+
+    public float reloadShot;
+    public float timer;
+    public int shotCount =3;
 
     private void Awake()
     {
@@ -60,14 +66,20 @@ public class PlayerMovement : MonoBehaviour
     void HandleMovement()
     {
             isGrounded = (Physics2D.Raycast((new Vector2(this.transform.position.x, this.transform.position.y+1f)), Vector3.down, 2f, 1 << LayerMask.NameToLayer("Ground"))); // raycast down to look for ground is not detecting ground? only works if allowing jump when grounded = false; // return "Ground" layer as layer
+            //isLeftWall = (Physics2D.Raycast((new Vector2(this.transform.position.x, this.transform.position.y -.5f)), Vector3.left, .55f, 1 << LayerMask.NameToLayer("Ground")));
+            //isRightWall = (Physics2D.Raycast((new Vector2(this.transform.position.x, this.transform.position.y - .5f)), Vector3.right, .55f, 1 << LayerMask.NameToLayer("Ground")));
 
-        Debug.Log(rb.velocity.magnitude);
+        //Debug.Log(rb.velocity.magnitude);
+        //if grounded and trying to jump, jump
         if (isGrounded)
         {
             rb.velocity = new Vector2(rb.velocity.x, jump * jumpSpeed);
 
-        } 
-        if(rb.velocity.magnitude < maxWalkSpeed)
+        }
+        
+       
+
+        if (rb.velocity.magnitude < maxWalkSpeed)
         {
             rb.AddForce(new Vector2(move * acceleration, 0));
         }
@@ -83,6 +95,8 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxWalkSpeed);
         }
+       
+       
         
 
 
@@ -90,10 +104,16 @@ public class PlayerMovement : MonoBehaviour
     }
     void HandleMouse()
     {
-        if (click == 1)
+        if (click == 1&&shotCount!=0&&timer>=reloadShot)
         {
             Instantiate(rocket, player.transform.position, Quaternion.identity);
+            shotCount--;
             click = 0;
+            timer = 0;
+        } else
+        if (timer < reloadShot)
+        {
+            timer += Time.deltaTime;
         }
     }
     

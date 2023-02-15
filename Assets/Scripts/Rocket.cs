@@ -17,6 +17,8 @@ public class Rocket : MonoBehaviour
     public float exploradius = 5;
     public float exploforce = 5;
 
+    public float timer;
+    public float rocketLife = 5f;
 
 
     // Start is called before the first frame update
@@ -24,7 +26,7 @@ public class Rocket : MonoBehaviour
     {
 
 
-     
+        //set rb of rocket, set the player and where the mouse clicked at, then set the v2 for the rocket's path.
         rb = GetComponent<Rigidbody2D>();
 
         player = GameObject.Find("Player");
@@ -36,16 +38,31 @@ public class Rocket : MonoBehaviour
         
         Debug.Log(dir);
         dir.Normalize();
-        rocket.transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(dir.y, dir.x)*180/Mathf.PI); 
+        rocket.transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(dir.y, dir.x)*180/Mathf.PI);
+        //Takes the Player velocity in account.
         rb.velocity = player.GetComponent<Rigidbody2D>().velocity;
+        //Make the rocket start out at a faster speed, can adjust later down the line
+        //rb.velocity = dir*speed;
         
-
     }
     // Update is called once per frame
     void Update()
     {
         rb.AddForce(dir*speed);
-        
+
+        /* USE IF NOT USING PLAYER VELOCITY FOR INITIAL LAUNCH
+        if (rb.velocity.y < (dir.y * speed))
+        {
+            //Increase y direction velocity
+            rb.velocity = new Vector2(rb.velocity.x, dir.y * speed);
+        }
+        if (rb.velocity.x < dir.x * speed)
+        {
+            //increase x direction velocity
+            rb.velocity = new Vector2(dir.x * speed,rb.velocity.y);
+        }
+        */
+        RocketTimer();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -54,6 +71,7 @@ public class Rocket : MonoBehaviour
         GameObject expol = Instantiate(explode);
         expol.transform.position= this.gameObject.transform.position;
         Explosion();
+        player.GetComponent<PlayerMovement>().shotCount++;
         Destroy(rocket);
     }
 
@@ -78,4 +96,19 @@ public class Rocket : MonoBehaviour
     {
         Gizmos.DrawWireSphere(transform.position, exploradius);
     }
+
+    private void RocketTimer()
+    {
+        // if the timer has been going longer than the rocket's life, destroy the rocket
+        if (timer > rocketLife)
+        {
+            player.GetComponent<PlayerMovement>().shotCount++;
+            Destroy(rocket);
+        }
+        else
+        {
+            timer += Time.deltaTime;
+        }
+    }
+
 }

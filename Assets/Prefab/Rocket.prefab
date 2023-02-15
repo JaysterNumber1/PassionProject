@@ -50,10 +50,12 @@ MonoBehaviour:
   rocket: {fileID: 994646742700445049}
   rb: {fileID: 4010796633323729805}
   dir: {x: 0, y: 0}
-  speed: 7
+  speed: 20.98
   explode: {fileID: 4548943561022408230, guid: f32a3907a90636f4db63c2e368958dce, type: 3}
   exploradius: 3.75
-  exploforce: 1000
+  exploforce: 405.65
+  timer: 0
+  rocketLife: 1
 --- !u!50 &4010796633323729805
 Rigidbody2D:
   serializedVersion: 4
