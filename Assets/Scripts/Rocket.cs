@@ -48,7 +48,7 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rb.AddForce(dir*speed);
+        //rb.AddForce(dir*speed);
 
         //USE IF NOT USING PLAYER VELOCITY FOR INITIAL LAUNCH
         if (rb.velocity.y < (dir.y * speed))
