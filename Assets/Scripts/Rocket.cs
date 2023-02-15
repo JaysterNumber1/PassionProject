@@ -28,7 +28,7 @@ public class Rocket : MonoBehaviour
         
         Debug.Log(dir);
         dir.Normalize();
-        
+        rocket.transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(dir.y, dir.x)*180/Mathf.PI); 
 
         
 
@@ -38,5 +38,10 @@ public class Rocket : MonoBehaviour
     {
         rb.AddForce(dir*speed);
         
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Destroy(rocket);
     }
 }
