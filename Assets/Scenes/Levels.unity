@@ -9723,6 +9723,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 519420031, guid: e64b4babff177024392edb29aa94a530, type: 3}
+      propertyPath: orthographic size
+      value: 7.6736145
+      objectReference: {fileID: 0}
     - target: {fileID: 7116183617423266509, guid: e64b4babff177024392edb29aa94a530, type: 3}
       propertyPath: m_SortingOrder
       value: 18
@@ -9749,11 +9753,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7116183618424984886, guid: e64b4babff177024392edb29aa94a530, type: 3}
       propertyPath: acceleration
-      value: 5
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 7116183618424984886, guid: e64b4babff177024392edb29aa94a530, type: 3}
       propertyPath: maxWalkSpeed
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7116183618424984887, guid: e64b4babff177024392edb29aa94a530, type: 3}
       propertyPath: m_Size.y

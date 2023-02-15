@@ -50,7 +50,7 @@ MonoBehaviour:
   rocket: {fileID: 994646742700445049}
   rb: {fileID: 4010796633323729805}
   dir: {x: 0, y: 0}
-  speed: 10
+  speed: 7
   explode: {fileID: 4548943561022408230, guid: f32a3907a90636f4db63c2e368958dce, type: 3}
   exploradius: 3.75
   exploforce: 1000
@@ -66,7 +66,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 2
+  m_Mass: 1.5
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
