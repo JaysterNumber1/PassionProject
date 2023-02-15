@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float maxWalkSpeed;
     public float maxSpeed;
+    public float floorDrag;
 
     public float reloadShot;
     public float timer;
@@ -56,6 +57,9 @@ public class PlayerMovement : MonoBehaviour
 
         input.Mouse.Click.performed += input => click = input.ReadValue<float>();
         input.Mouse.Position.performed += input => pos = input.ReadValue<Vector2>();
+
+        if (isGrounded && rb.velocity.x > 0) rb.velocity = new Vector2(rb.velocity.x - floorDrag, rb.velocity.y);
+        if (isGrounded && rb.velocity.x < 0) rb.velocity = new Vector2(rb.velocity.x + floorDrag,rb.velocity.y);
 
         HandleMovement();
         HandleMouse();
@@ -106,7 +110,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (click == 1&&shotCount!=0&&timer>=reloadShot)
         {
-            Instantiate(rocket, player.transform.position, Quaternion.identity);
+            Instantiate(rocket, new Vector3(player.transform.position.x, player.transform.position.y - .25f, player.transform.position.z), Quaternion.identity);
             shotCount--;
             click = 0;
             timer = 0;

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420033}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -61,7 +61,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 7.6736145
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -128,7 +128,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7116183617423266511}
   - component: {fileID: 7116183617423266509}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -190,7 +190,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 18
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 7116183618424984886}
   - component: {fileID: 7116183618424984887}
   - component: {fileID: 7116183618424984884}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,10 +251,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 10
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.71
-  m_GravityScale: 1
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -275,12 +275,17 @@ MonoBehaviour:
   player: {fileID: 7116183618424984890}
   rocket: {fileID: 994646742700445049, guid: 01abc2a8a690c524394c08b131640ce7, type: 3}
   acceleration: 50
-  jumpSpeed: 5
+  jumpSpeed: 8
   move: 0
   jump: 0
   click: 0
   pos: {x: 10.74, y: 0}
-  maxWalkSpeed: 3
+  isGrounded: 0
+  maxWalkSpeed: 5
+  maxSpeed: 100
+  reloadShot: 0.2
+  timer: 0
+  shotCount: 5
 --- !u!70 &7116183618424984887
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -294,8 +299,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 2}
+  m_Offset: {x: 0, y: 0.008514643}
+  m_Size: {x: 1, y: 1.9829707}
   m_Direction: 0
 --- !u!61 &7116183618424984884
 BoxCollider2D:
