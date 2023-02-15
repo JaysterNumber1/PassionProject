@@ -11138,6 +11138,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7116183617423266511, guid: e64b4babff177024392edb29aa94a530, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116183617423266511, guid: e64b4babff177024392edb29aa94a530, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 7116183618424984886, guid: e64b4babff177024392edb29aa94a530, type: 3}
       propertyPath: timer
       value: 0
@@ -11145,6 +11153,14 @@ PrefabInstance:
     - target: {fileID: 7116183618424984886, guid: e64b4babff177024392edb29aa94a530, type: 3}
       propertyPath: shotCount
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116183618424984887, guid: e64b4babff177024392edb29aa94a530, type: 3}
+      propertyPath: m_Size.y
+      value: 1.4892427
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116183618424984887, guid: e64b4babff177024392edb29aa94a530, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.23834938
       objectReference: {fileID: 0}
     - target: {fileID: 7116183618424984890, guid: e64b4babff177024392edb29aa94a530, type: 3}
       propertyPath: m_Name

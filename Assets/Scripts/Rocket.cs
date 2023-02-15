@@ -40,17 +40,17 @@ public class Rocket : MonoBehaviour
         dir.Normalize();
         rocket.transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(dir.y, dir.x)*180/Mathf.PI);
         //Takes the Player velocity in account.
-        rb.velocity = player.GetComponent<Rigidbody2D>().velocity;
+        //rb.velocity = player.GetComponent<Rigidbody2D>().velocity;
         //Make the rocket start out at a faster speed, can adjust later down the line
-        //rb.velocity = dir*speed;
+        rb.velocity = dir*speed;
         
     }
     // Update is called once per frame
     void Update()
     {
-        rb.AddForce(dir*speed);
+        //rb.AddForce(dir*speed);
 
-        /* USE IF NOT USING PLAYER VELOCITY FOR INITIAL LAUNCH
+        // USE IF NOT USING PLAYER VELOCITY FOR INITIAL LAUNCH
         if (rb.velocity.y < (dir.y * speed))
         {
             //Increase y direction velocity
@@ -61,7 +61,7 @@ public class Rocket : MonoBehaviour
             //increase x direction velocity
             rb.velocity = new Vector2(dir.x * speed,rb.velocity.y);
         }
-        */
+        
         RocketTimer();
     }
 
