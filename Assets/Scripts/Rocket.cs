@@ -1,15 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Rocket : MonoBehaviour
 {
     
     public GameObject rocket;
-    public GameObject player;
+    private GameObject player;
     public Rigidbody2D rb;
     public Vector2 dir;
     public float speed;
+    public GameObject explode;
+
+    Collider2D[] inexplosion = null;
+    public float exploradius = 5;
+    public float exploforce = 5;
+
+
 
     // Start is called before the first frame update
     void Awake()
@@ -42,6 +50,32 @@ public class Rocket : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+
+        GameObject expol = Instantiate(explode);
+        expol.transform.position= this.gameObject.transform.position;
+        Explosion();
         Destroy(rocket);
+    }
+
+    public void Explosion()
+    {
+        inexplosion = Physics2D.OverlapCircleAll(transform.position, exploradius);
+
+        foreach (Collider2D o in inexplosion)
+        {
+            Rigidbody2D rb = o.GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                Vector2 distex = o.transform.position - transform.position;
+                if (distex.magnitude > 0)
+                {
+                    rb.AddForce(distex.normalized * exploforce);
+                }
+            }
+        }
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, exploradius);
     }
 }

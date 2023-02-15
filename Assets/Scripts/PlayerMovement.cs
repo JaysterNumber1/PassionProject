@@ -21,8 +21,10 @@ public class PlayerMovement : MonoBehaviour
     public float jump;
     public float click;
     public Vector2 pos;
+    [SerializeField] private bool isGrounded;
 
     public float maxWalkSpeed;
+    public float maxSpeed;
 
     private void Awake()
     {
@@ -57,22 +59,28 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleMovement()
     {
-        
-        if ((rb.velocity.y < .05 && rb.velocity.y > -.05))
+            isGrounded = (Physics2D.Raycast((new Vector2(this.transform.position.x, this.transform.position.y+1f)), Vector3.down, 2f, 1 << LayerMask.NameToLayer("Ground"))); // raycast down to look for ground is not detecting ground? only works if allowing jump when grounded = false; // return "Ground" layer as layer
+           
+
+        if (isGrounded)
         {
             rb.velocity = new Vector2(rb.velocity.x, jump * jumpSpeed);
 
+        } 
+        if(isGrounded && rb.velocity.magnitude < maxWalkSpeed)
+        {
+            rb.AddForce(new Vector2(move * acceleration, 0));
         }
-        
-        rb.AddForce(new Vector2(move * acceleration, 0));
-        if (rb.velocity.x > maxWalkSpeed)
+        else if (!isGrounded && rb.velocity.magnitude < maxWalkSpeed/1.5f)
         {
-            rb.velocity = new Vector2(maxWalkSpeed,rb.velocity.y);
-        } else if (rb.velocity.x < -maxWalkSpeed)
-        {
-            rb.velocity = new Vector2(-maxWalkSpeed, rb.velocity.y);
+            rb.AddForce(new Vector2(move * acceleration / 1.5f, 0));
         }
 
+        if (rb.velocity.magnitude > maxSpeed)
+        {
+            rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxWalkSpeed);
+        }
+        
 
 
 
@@ -85,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
             click = 0;
         }
     }
-
+    
 
 
 

@@ -2274,9 +2274,9 @@ GameObject:
   - component: {fileID: 1133868614}
   - component: {fileID: 1133868613}
   - component: {fileID: 1133868612}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Midground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2305,7 +2305,7 @@ TilemapCollider2D:
   m_GameObject: {fileID: 1133868610}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: a3bb465f98e570c43b40e628a4adbd1a, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -2352,7 +2352,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 19
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -9723,13 +9723,53 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 7116183617423266509, guid: e64b4babff177024392edb29aa94a530, type: 3}
+      propertyPath: m_SortingOrder
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 7116183617423266510, guid: e64b4babff177024392edb29aa94a530, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 7116183618424984886, guid: e64b4babff177024392edb29aa94a530, type: 3}
+      propertyPath: jump
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116183618424984886, guid: e64b4babff177024392edb29aa94a530, type: 3}
+      propertyPath: maxSpeed
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116183618424984886, guid: e64b4babff177024392edb29aa94a530, type: 3}
+      propertyPath: jumpSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116183618424984886, guid: e64b4babff177024392edb29aa94a530, type: 3}
+      propertyPath: isGrounded
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116183618424984886, guid: e64b4babff177024392edb29aa94a530, type: 3}
+      propertyPath: acceleration
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116183618424984886, guid: e64b4babff177024392edb29aa94a530, type: 3}
+      propertyPath: maxWalkSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116183618424984887, guid: e64b4babff177024392edb29aa94a530, type: 3}
+      propertyPath: m_Size.y
+      value: 1.9829707
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116183618424984887, guid: e64b4babff177024392edb29aa94a530, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.008514643
+      objectReference: {fileID: 0}
     - target: {fileID: 7116183618424984888, guid: e64b4babff177024392edb29aa94a530, type: 3}
       propertyPath: m_Mass
-      value: 8
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116183618424984888, guid: e64b4babff177024392edb29aa94a530, type: 3}
+      propertyPath: m_GravityScale
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7116183618424984890, guid: e64b4babff177024392edb29aa94a530, type: 3}
       propertyPath: m_Name
@@ -9738,6 +9778,10 @@ PrefabInstance:
     - target: {fileID: 7116183618424984890, guid: e64b4babff177024392edb29aa94a530, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116183618424984890, guid: e64b4babff177024392edb29aa94a530, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 7116183618424984891, guid: e64b4babff177024392edb29aa94a530, type: 3}
       propertyPath: m_RootOrder
@@ -9926,7 +9970,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 19
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -10030,9 +10074,9 @@ BuoyancyEffector2D:
     serializedVersion: 2
     m_Bits: 4294967295
   m_SurfaceLevel: 0
-  m_Density: 2
-  m_LinearDrag: 5
-  m_AngularDrag: 5
+  m_Density: 0.1
+  m_LinearDrag: 1
+  m_AngularDrag: 1
   m_FlowAngle: 0
   m_FlowMagnitude: 0
   m_FlowVariation: 0
