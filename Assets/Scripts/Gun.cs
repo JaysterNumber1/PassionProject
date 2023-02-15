@@ -9,6 +9,7 @@ public class Gun : MonoBehaviour
     public Axis axis = Axis.y;
     public bool inverted;
     public GameObject player;
+    public GameObject gun;
 
     private Vector3 mousePosition;
     private Vector3 lookAtPosition;
@@ -58,6 +59,18 @@ public class Gun : MonoBehaviour
 
             default:
                 break;
+        }
+
+        Debug.Log(mousePosition);
+
+        if (mousePosition.x < Screen.width/2)
+        {
+
+            gun.GetComponent<SpriteRenderer>().flipY = true;
+        }
+        else
+        {
+            gun.GetComponent<SpriteRenderer>().flipY = false;
         }
     }
 

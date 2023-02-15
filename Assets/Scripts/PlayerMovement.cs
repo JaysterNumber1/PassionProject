@@ -82,14 +82,23 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, jump * jumpSpeed);
 
         }
-        
-       
+        if (rb.velocity.x > 0)
+        {
+            player.GetComponentInChildren<SpriteRenderer>().flipX = false;
+        }
+        else if (rb.velocity.x < 0)
+        {
+            player.GetComponentInChildren<SpriteRenderer>().flipX = true;
+        }
+
+
+
 
         if (rb.velocity.magnitude < maxWalkSpeed)
         {
             rb.AddForce(new Vector2(move * acceleration, 0));
         }
-        if (rb.velocity.magnitude > maxWalkSpeed && rb.velocity.x > 0 && move < 0)
+        if (rb.velocity.x > maxWalkSpeed && rb.velocity.x > 0 && move < 0)
         {
             rb.AddForce(new Vector2(move * acceleration, 0));
         }
