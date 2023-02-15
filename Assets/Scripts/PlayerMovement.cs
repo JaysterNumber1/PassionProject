@@ -14,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
 
     public GameObject rocket;
+
+    public GameObject clipManager;
     
     public float acceleration = 20;
     public float jumpSpeed= 20;
@@ -36,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-      
+        clipManager = GameObject.Find("GunClip");
         input = new Input();
         input.Enable();
     }
@@ -111,7 +113,11 @@ public class PlayerMovement : MonoBehaviour
         if (click == 1&&shotCount!=0&&timer>=reloadShot)
         {
             Instantiate(rocket, new Vector3(player.transform.position.x, player.transform.position.y - .25f, player.transform.position.z), Quaternion.identity);
+            
             shotCount--;
+
+            clipManager.GetComponent<ClipManager>().DecreaseShot();
+
             click = 0;
             timer = 0;
         } else
@@ -119,6 +125,11 @@ public class PlayerMovement : MonoBehaviour
         {
             timer += Time.deltaTime;
         }
+    }
+
+    public void IncreaseShot()
+    {
+        clipManager.GetComponent<ClipManager>().IncreaseShot();
     }
     
 

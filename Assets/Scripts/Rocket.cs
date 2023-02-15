@@ -36,13 +36,13 @@ public class Rocket : MonoBehaviour
         //dir.x -= player.transform.position.x;
         //dir.y -= player.transform.position.y;
         
-        Debug.Log(dir);
+        //Debug.Log(dir);
         dir.Normalize();
         rocket.transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(dir.y, dir.x)*180/Mathf.PI);
         //Takes the Player velocity in account.
-        rb.velocity = player.GetComponent<Rigidbody2D>().velocity;
+        //rb.velocity = player.GetComponent<Rigidbody2D>().velocity;
         //Make the rocket start out at a faster speed, can adjust later down the line
-        //rb.velocity = dir*speed;
+        rb.velocity = dir*speed;
         
     }
     // Update is called once per frame
@@ -50,7 +50,7 @@ public class Rocket : MonoBehaviour
     {
         rb.AddForce(dir*speed);
 
-        /* USE IF NOT USING PLAYER VELOCITY FOR INITIAL LAUNCH
+        //USE IF NOT USING PLAYER VELOCITY FOR INITIAL LAUNCH
         if (rb.velocity.y < (dir.y * speed))
         {
             //Increase y direction velocity
@@ -61,7 +61,7 @@ public class Rocket : MonoBehaviour
             //increase x direction velocity
             rb.velocity = new Vector2(dir.x * speed,rb.velocity.y);
         }
-        */
+        
         RocketTimer();
     }
 
@@ -72,6 +72,9 @@ public class Rocket : MonoBehaviour
         expol.transform.position= this.gameObject.transform.position;
         Explosion();
         player.GetComponent<PlayerMovement>().shotCount++;
+
+        player.GetComponent<PlayerMovement>().IncreaseShot();
+
         Destroy(rocket);
     }
 
@@ -103,6 +106,9 @@ public class Rocket : MonoBehaviour
         if (timer > rocketLife)
         {
             player.GetComponent<PlayerMovement>().shotCount++;
+
+            player.GetComponent<PlayerMovement>().IncreaseShot();
+
             Destroy(rocket);
         }
         else
