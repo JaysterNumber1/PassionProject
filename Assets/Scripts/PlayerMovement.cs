@@ -69,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleMovement()
     {
-            isGrounded = (Physics2D.Raycast((new Vector2(this.transform.position.x, this.transform.position.y+1f)), Vector3.down, 2f, 1 << LayerMask.NameToLayer("Ground"))); // raycast down to look for ground is not detecting ground? only works if allowing jump when grounded = false; // return "Ground" layer as layer
+            isGrounded = (Physics2D.Raycast((new Vector2(this.transform.position.x, this.transform.position.y)), Vector3.down, 1f, 1 << LayerMask.NameToLayer("Ground"))); // raycast down to look for ground is not detecting ground? only works if allowing jump when grounded = false; // return "Ground" layer as layer
             //isLeftWall = (Physics2D.Raycast((new Vector2(this.transform.position.x, this.transform.position.y -.5f)), Vector3.left, .55f, 1 << LayerMask.NameToLayer("Ground")));
             //isRightWall = (Physics2D.Raycast((new Vector2(this.transform.position.x, this.transform.position.y - .5f)), Vector3.right, .55f, 1 << LayerMask.NameToLayer("Ground")));
 
