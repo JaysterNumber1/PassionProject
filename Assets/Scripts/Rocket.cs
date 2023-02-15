@@ -9,6 +9,7 @@ public class Rocket : MonoBehaviour
     public GameObject player;
     public Rigidbody2D rb;
     public Vector2 dir;
+    public float speed;
 
     // Start is called before the first frame update
     void Awake()
@@ -27,7 +28,7 @@ public class Rocket : MonoBehaviour
         
         Debug.Log(dir);
         dir.Normalize();
-        
+        rocket.transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(dir.y, dir.x)*180/Mathf.PI); 
 
         
 
@@ -35,7 +36,12 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rb.AddForce(dir);
+        rb.AddForce(dir*speed);
         
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Destroy(rocket);
     }
 }
