@@ -118,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
 
             clipManager.GetComponent<ClipManager>().DecreaseShot();
 
-            click = 0;
+            //click = 0;
             timer = 0;
         } else
         if (timer < reloadShot)

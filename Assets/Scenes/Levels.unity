@@ -10901,7 +10901,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7116183618424984886, guid: e64b4babff177024392edb29aa94a530, type: 3}
       propertyPath: reloadShot
-      value: 0.1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7116183618424984886, guid: e64b4babff177024392edb29aa94a530, type: 3}
       propertyPath: clipManager

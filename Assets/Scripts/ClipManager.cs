@@ -34,10 +34,13 @@ public class ClipManager : MonoBehaviour
     public void DecreaseShot()
     {
         bullets = player.GetComponent<PlayerMovement>().shotCount;
-        
-        bulletClone = GameObject.Find("Bullet"+(bullets + 1));
-       
-        bulletClone.GetComponent<Image>().sprite = casing;
+
+        if (GameObject.Find("Bullet" + (bullets + 1)) != null)
+        {
+            bulletClone = GameObject.Find("Bullet" + (bullets + 1));
+
+            bulletClone.GetComponent<Image>().sprite = casing;
+        }
        
 
 
@@ -47,10 +50,15 @@ public class ClipManager : MonoBehaviour
     {
         bullets = player.GetComponent<PlayerMovement>().shotCount;
 
-        Debug.Log(( bullets));
-        bulletClone = GameObject.Find("Bullet" + (bullets));
- 
-        bulletClone.GetComponent<Image>().sprite = cartidge;
+        Debug.Log((bullets));
+        if(GameObject.Find("Bullet" + (bullets)) != null)
+        {
+            bulletClone = GameObject.Find("Bullet" + (bullets));
+            bulletClone.GetComponent<Image>().sprite = cartidge;
+        }
+    
+
+       
        
     }
 

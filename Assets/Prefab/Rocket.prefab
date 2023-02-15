@@ -55,7 +55,7 @@ MonoBehaviour:
   exploradius: 3.75
   exploforce: 405.65
   timer: 0
-  rocketLife: 1
+  rocketLife: 2.04
 --- !u!50 &4010796633323729805
 Rigidbody2D:
   serializedVersion: 4
