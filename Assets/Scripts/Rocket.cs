@@ -37,7 +37,7 @@ public class Rocket : MonoBehaviour
         Debug.Log(dir);
         dir.Normalize();
         rocket.transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(dir.y, dir.x)*180/Mathf.PI); 
-
+        rb.velocity = player.GetComponent<Rigidbody2D>().velocity;
         
 
     }
