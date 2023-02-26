@@ -61,7 +61,6 @@ public class Gun : MonoBehaviour
                 break;
         }
 
-        Debug.Log(mousePosition);
 
         if (mousePosition.x < Screen.width/2)
         {

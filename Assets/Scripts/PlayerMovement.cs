@@ -72,8 +72,9 @@ public class PlayerMovement : MonoBehaviour
     void HandleMovement()
     {
             isGrounded = (Physics2D.Raycast((new Vector2(this.transform.position.x, this.transform.position.y)), Vector3.down, 1f, 1 << LayerMask.NameToLayer("Ground"))); // raycast down to look for ground is not detecting ground? only works if allowing jump when grounded = false; // return "Ground" layer as layer
-            //isLeftWall = (Physics2D.Raycast((new Vector2(this.transform.position.x, this.transform.position.y -.5f)), Vector3.left, .55f, 1 << LayerMask.NameToLayer("Ground")));
-            //isRightWall = (Physics2D.Raycast((new Vector2(this.transform.position.x, this.transform.position.y - .5f)), Vector3.right, .55f, 1 << LayerMask.NameToLayer("Ground")));
+            
+        //isLeftWall = (Physics2D.Raycast((new Vector2(this.transform.position.x, this.transform.position.y -.5f)), Vector3.left, .55f, 1 << LayerMask.NameToLayer("Ground")));
+        //isRightWall = (Physics2D.Raycast((new Vector2(this.transform.position.x, this.transform.position.y - .5f)), Vector3.right, .55f, 1 << LayerMask.NameToLayer("Ground")));
 
         //Debug.Log(rb.velocity.magnitude);
         //if grounded and trying to jump, jump
@@ -82,39 +83,26 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, jump * jumpSpeed);
 
         }
-        if (rb.velocity.x > 0)
-        {
-            player.GetComponentInChildren<SpriteRenderer>().flipX = false;
-        }
-        else if (rb.velocity.x < 0)
-        {
-            player.GetComponentInChildren<SpriteRenderer>().flipX = true;
-        }
-
-
-
-
-        if (rb.velocity.magnitude < maxWalkSpeed)
-        {
-            rb.AddForce(new Vector2(move * acceleration, 0));
-        }
-        if (rb.velocity.x > maxWalkSpeed && rb.velocity.x > 0 && move < 0)
-        {
-            rb.AddForce(new Vector2(move * acceleration, 0));
-        }
-        if (rb.velocity.magnitude > maxWalkSpeed && rb.velocity.x < 0 && move > 0)
-        {
-            rb.AddForce(new Vector2(move * acceleration, 0));
-        }
-        if (rb.velocity.magnitude > maxSpeed)
-        {
-            rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxWalkSpeed);
-        }
        
-       
-        
+        player.GetComponentInChildren<SpriteRenderer>().flipX = rb.velocity.x < 0;
 
 
+        if (Mathf.Abs(rb.velocity.x) < maxWalkSpeed)
+        {
+            rb.AddForce(new Vector2(move * (maxWalkSpeed - Mathf.Abs(rb.velocity.x)), 0), ForceMode2D.Impulse);
+            Debug.DrawRay((new Vector2(this.transform.position.x, this.transform.position.y)), Vector3.down, Color.green, 1.0f);
+        }
+        else if((rb.velocity.x > 0 && move < 0) || (rb.velocity.x < 0 && move > 0) && !isGrounded)
+        {
+            rb.AddForce(new Vector2(move * (maxWalkSpeed + 0.5f - Mathf.Clamp(Mathf.Abs(rb.velocity.x), -1, 1)), 0), ForceMode2D.Impulse);
+            Debug.DrawRay((new Vector2(this.transform.position.x, this.transform.position.y)), Vector3.down, Color.yellow, 1.0f);
+        }
+        else
+        {
+            Debug.DrawRay((new Vector2(this.transform.position.x, this.transform.position.y)), Vector3.down, Color.red, 1.0f);
+        }
+        Debug.Log(rb.velocity.x);
+ 
 
     }
     void HandleMouse()

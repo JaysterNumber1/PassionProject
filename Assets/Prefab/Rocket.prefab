@@ -53,7 +53,7 @@ MonoBehaviour:
   speed: 20.98
   explode: {fileID: 4548943561022408230, guid: f32a3907a90636f4db63c2e368958dce, type: 3}
   exploradius: 3.75
-  exploforce: 405.65
+  exploforce: 350
   timer: 0
   rocketLife: 2.04
 --- !u!50 &4010796633323729805
