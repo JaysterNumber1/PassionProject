@@ -52,7 +52,8 @@ MonoBehaviour:
   dir: {x: 0, y: 0}
   speed: 20.98
   explode: {fileID: 4548943561022408230, guid: f32a3907a90636f4db63c2e368958dce, type: 3}
-  exploradius: 3.75
+  shake: {fileID: 0}
+  exploradius: 5
   exploforce: 350
   timer: 0
   rocketLife: 2.04

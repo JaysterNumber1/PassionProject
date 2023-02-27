@@ -105,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if((rb.velocity.x > 0 && move < 0) || (rb.velocity.x < 0 && move > 0) && !isGrounded)
         {
-            rb.AddForce(new Vector2(move * (maxWalkSpeed + 0.5f - Mathf.Clamp(Mathf.Abs(rb.velocity.x), -1, 1)), 0), ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(move *.075f * (maxWalkSpeed + 0.5f - Mathf.Clamp(Mathf.Abs(rb.velocity.x), -1, 1)), 0), ForceMode2D.Impulse);
             Debug.DrawRay((new Vector2(this.transform.position.x, this.transform.position.y)), Vector3.down, Color.yellow, 1.0f);
         }
         else
