@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Rocket
   - Ground
+  - Teleport
   layers:
   - Default
   - TransparentFX

@@ -12,6 +12,7 @@ public class Rocket : MonoBehaviour
     public Vector2 dir;
     public float speed;
     public GameObject explode;
+    public ScreenShake shake;
 
     Collider2D[] inexplosion = null;
     public float exploradius = 5;
@@ -25,7 +26,7 @@ public class Rocket : MonoBehaviour
     void Awake()
     {
 
-
+        
         //set rb of rocket, set the player and where the mouse clicked at, then set the v2 for the rocket's path.
         rb = GetComponent<Rigidbody2D>();
 
@@ -43,7 +44,8 @@ public class Rocket : MonoBehaviour
         //rb.velocity = player.GetComponent<Rigidbody2D>().velocity;
         //Make the rocket start out at a faster speed, can adjust later down the line
         rb.velocity = dir*speed;
-        
+        shake = player.GetComponentInChildren<ScreenShake>();
+
     }
     // Update is called once per frame
     void Update()
@@ -71,15 +73,13 @@ public class Rocket : MonoBehaviour
         GameObject expol = Instantiate(explode);
         expol.transform.position= this.gameObject.transform.position;
         Explosion();
-        player.GetComponent<PlayerMovement>().shotCount++;
-
-        player.GetComponent<PlayerMovement>().IncreaseShot();
 
         Destroy(rocket);
     }
 
     public void Explosion()
     {
+        shake.start = true;
         inexplosion = Physics2D.OverlapCircleAll(transform.position, exploradius);
 
         foreach (Collider2D o in inexplosion)
@@ -105,10 +105,6 @@ public class Rocket : MonoBehaviour
         // if the timer has been going longer than the rocket's life, destroy the rocket
         if (timer > rocketLife)
         {
-            player.GetComponent<PlayerMovement>().shotCount++;
-
-            player.GetComponent<PlayerMovement>().IncreaseShot();
-
             Destroy(rocket);
         }
         else

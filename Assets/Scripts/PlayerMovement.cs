@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    #region Variables
 
     public static PlayerMovement instance;
 
@@ -22,10 +24,9 @@ public class PlayerMovement : MonoBehaviour
     public float move;
     public float jump;
     public float click;
+    public float interact;
     public Vector2 pos;
     [SerializeField] private bool isGrounded;
-    //[SerializeField] private bool isLeftWall;
-    //[SerializeField] private bool isRightWall;
 
     public float maxWalkSpeed;
     public float maxSpeed;
@@ -34,6 +35,12 @@ public class PlayerMovement : MonoBehaviour
     public float reloadShot;
     public float timer;
     public int shotCount =3;
+    public float reloadGunTime = 1;
+    private float reloadTime;
+    public float timeFromClickGroundedTime;
+    private float timeFromClickGrounded;
+
+    #endregion
 
     private void Awake()
     {
@@ -43,15 +50,6 @@ public class PlayerMovement : MonoBehaviour
         input.Enable();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-       
-        
-        
-    }
-
-    // Update is called once per frame
     void FixedUpdate()
     {
         input.Movement.Side.performed += input => move = input.ReadValue<float>();
@@ -60,23 +58,36 @@ public class PlayerMovement : MonoBehaviour
         input.Mouse.Click.performed += input => click = input.ReadValue<float>();
         input.Mouse.Position.performed += input => pos = input.ReadValue<Vector2>();
 
-        if (isGrounded && rb.velocity.x > 0) rb.velocity = new Vector2(rb.velocity.x - floorDrag, rb.velocity.y);
-        if (isGrounded && rb.velocity.x < 0) rb.velocity = new Vector2(rb.velocity.x + floorDrag,rb.velocity.y);
+        input.Movement.Interact.performed += input => interact = input.ReadValue<float>();
 
         HandleMovement();
         HandleMouse();
-        
-        
+
+        if(isGrounded) timeFromClickGrounded += Time.deltaTime;
+        if (!isGrounded) { 
+            reloadTime = 0;
+            timeFromClickGrounded = 0;
+        }
+
+        else if (reloadTime < reloadGunTime && shotCount < clipManager.GetComponent<ClipManager>().maxBullets) reloadTime += Time.deltaTime;
+
+        if (isGrounded && reloadGunTime < reloadTime && shotCount < clipManager.GetComponent<ClipManager>().maxBullets && timeFromClickGrounded > timeFromClickGroundedTime)
+        {
+            player.GetComponent<PlayerMovement>().shotCount++;
+
+            player.GetComponent<PlayerMovement>().IncreaseShot();
+
+            reloadTime= 0;
+
+        }
+
     }
 
     void HandleMovement()
     {
             isGrounded = (Physics2D.Raycast((new Vector2(this.transform.position.x, this.transform.position.y)), Vector3.down, 1f, 1 << LayerMask.NameToLayer("Ground"))); // raycast down to look for ground is not detecting ground? only works if allowing jump when grounded = false; // return "Ground" layer as layer
             
-        //isLeftWall = (Physics2D.Raycast((new Vector2(this.transform.position.x, this.transform.position.y -.5f)), Vector3.left, .55f, 1 << LayerMask.NameToLayer("Ground")));
-        //isRightWall = (Physics2D.Raycast((new Vector2(this.transform.position.x, this.transform.position.y - .5f)), Vector3.right, .55f, 1 << LayerMask.NameToLayer("Ground")));
-
-        //Debug.Log(rb.velocity.magnitude);
+  
         //if grounded and trying to jump, jump
         if (isGrounded)
         {
@@ -101,14 +112,16 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.DrawRay((new Vector2(this.transform.position.x, this.transform.position.y)), Vector3.down, Color.red, 1.0f);
         }
-        Debug.Log(rb.velocity.x);
+        //Debug.Log(rb.velocity.x);
  
 
     }
+  
     void HandleMouse()
     {
-        if (click == 1&&shotCount!=0&&timer>=reloadShot)
+        if (click == 1 && shotCount!=0 && timer>=reloadShot)
         {
+            timeFromClickGrounded = 0;
             Instantiate(rocket, new Vector3(player.transform.position.x, player.transform.position.y - .25f, player.transform.position.z), Quaternion.identity);
             
             shotCount--;
@@ -123,12 +136,35 @@ public class PlayerMovement : MonoBehaviour
             timer += Time.deltaTime;
         }
     }
-
+    
     public void IncreaseShot()
     {
         clipManager.GetComponent<ClipManager>().IncreaseShot();
     }
-    
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        Debug.Log(collision.gameObject.name);
+        if (interact == 1)
+        {        
+            if(collision.gameObject.tag == "Teleport")
+            {
+                collision.gameObject.GetComponent<Teleport>().TeleportTo(this.gameObject);
+                if (shotCount < clipManager.GetComponent<ClipManager>().maxBullets)
+                {
+                    player.GetComponent<PlayerMovement>().shotCount++;
+
+                    player.GetComponent<PlayerMovement>().IncreaseShot();
+
+                    reloadTime = 0;
+
+                }
+            }
+        }
+    }
+ 
+
+
 
 
 

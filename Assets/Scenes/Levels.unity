@@ -253,7 +253,7 @@ GameObject:
   - component: {fileID: 164082485}
   m_Layer: 0
   m_Name: Lvl1 Exit
-  m_TagString: Untagged
+  m_TagString: Teleport
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1524,7 +1524,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 520729647}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.68, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11352,6 +11352,18 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: -0.09647122
       objectReference: {fileID: 0}
+    - target: {fileID: 7116183618424984886, guid: e64b4babff177024392edb29aa94a530, type: 3}
+      propertyPath: reloadGunTime
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116183618424984886, guid: e64b4babff177024392edb29aa94a530, type: 3}
+      propertyPath: timeFromClickTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116183618424984886, guid: e64b4babff177024392edb29aa94a530, type: 3}
+      propertyPath: timeFromClickGroundedTime
+      value: 0.75
+      objectReference: {fileID: 0}
     - target: {fileID: 7116183618424984887, guid: e64b4babff177024392edb29aa94a530, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -11455,6 +11467,85 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1742869629 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 519420028, guid: e64b4babff177024392edb29aa94a530, type: 3}
+  m_PrefabInstance: {fileID: 1632022616}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1742869633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1742869629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2c4ef69322e6024e8e079677396da34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  start: 0
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 7.294482
+      outSlope: 7.294482
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.024477012
+    - serializedVersion: 3
+      time: 0.006593289
+      value: 0.6318577
+      inSlope: 9.258864
+      outSlope: 9.258864
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 1
+      outWeight: 0.1597138
+    - serializedVersion: 3
+      time: 0.055183798
+      value: 0.8400715
+      inSlope: -0.090665385
+      outSlope: -0.090665385
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.21467814
+      value: 0.15943308
+      inSlope: -0.12823962
+      outSlope: -0.12823962
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.8737552
+      outWeight: 1
+    - serializedVersion: 3
+      time: 0.38884866
+      value: 0.09203154
+      inSlope: -0.25529942
+      outSlope: -0.25529942
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0992464
+      value: -0.00008408725
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  duration: 0.75
 --- !u!1 &1796455392
 GameObject:
   m_ObjectHideFlags: 0

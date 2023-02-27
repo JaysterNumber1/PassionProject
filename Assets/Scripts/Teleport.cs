@@ -7,10 +7,10 @@ public class Teleport : MonoBehaviour
 {
     public GameObject TeleportLocation;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void TeleportTo(GameObject obj)
     {
-        collision.gameObject.transform.position = TeleportLocation.transform.position;
-  
-        Debug.Log("Teleport " + collision.gameObject.name);
+        obj.transform.position = TeleportLocation.transform.position;
+
+        Debug.Log("Teleport " + obj.gameObject.name);
     }
 }
