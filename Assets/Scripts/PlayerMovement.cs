@@ -173,6 +173,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Destroy(collision.gameObject);
             clipManager.GetComponent<ClipManager>().addBullet();
+            Debug.Log("hihi");
 
         }
     }
