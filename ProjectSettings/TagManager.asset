@@ -7,6 +7,7 @@ TagManager:
   - Rocket
   - Ground
   - Teleport
+  - extraBullet
   layers:
   - Default
   - TransparentFX

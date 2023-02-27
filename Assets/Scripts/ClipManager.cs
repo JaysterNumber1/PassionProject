@@ -62,9 +62,17 @@ public class ClipManager : MonoBehaviour
        
     }
 
-    // Update is called once per frame
-    void Update()
+    public void addBullet()
     {
-        
+        maxBullets += 1;
+        Debug.Log((maxBullets));
+        int f = maxBullets;
+        bulletClone = Instantiate(bullet, new Vector3(clipManager.transform.position.x + 2 * f * bullet.GetComponent<RectTransform>().rect.x, clipManager.transform.position.y, clipManager.transform.position.z), clipManager.transform.rotation, clipManager.transform);
+        bulletClone.name = (bullet.name + f);
+        bulletClone = GameObject.Find("Bullet" + (f));
+
+        bulletClone.GetComponent<Image>().sprite = casing;
+        player.GetComponent<PlayerMovement>().shotCount++;
+        player.GetComponent<PlayerMovement>().IncreaseShot();
     }
 }

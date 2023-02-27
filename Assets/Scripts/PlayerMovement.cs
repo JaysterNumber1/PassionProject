@@ -40,6 +40,8 @@ public class PlayerMovement : MonoBehaviour
     public float timeFromClickGroundedTime;
     private float timeFromClickGrounded;
 
+    private bool canInteract;
+
     #endregion
 
     private void Awake()
@@ -59,6 +61,7 @@ public class PlayerMovement : MonoBehaviour
         input.Mouse.Position.performed += input => pos = input.ReadValue<Vector2>();
 
         input.Movement.Interact.performed += input => interact = input.ReadValue<float>();
+        if(interact == 0) canInteract= true;
 
         HandleMovement();
         HandleMouse();
@@ -145,8 +148,9 @@ public class PlayerMovement : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collision)
     {
         Debug.Log(collision.gameObject.name);
-        if (interact == 1)
+        if (interact == 1 && canInteract)
         {        
+            canInteract= false;
             if(collision.gameObject.tag == "Teleport")
             {
                 collision.gameObject.GetComponent<Teleport>().TeleportTo(this.gameObject);
@@ -160,9 +164,18 @@ public class PlayerMovement : MonoBehaviour
 
                 }
             }
+            
         }
     }
- 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "extraBullet")
+        {
+            Destroy(collision.gameObject);
+            clipManager.GetComponent<ClipManager>().addBullet();
+
+        }
+    }
 
 
 
