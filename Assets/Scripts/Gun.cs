@@ -29,7 +29,7 @@ public class Gun : MonoBehaviour
         // store mouse pixel coordinates
         mousePosition = player.GetComponent<PlayerMovement>().pos;
 
-        // distance in z between t$$anonymous$$s object and the camera
+        // distance in z between this object and the camera
         // so it always align with the object
         mousePosition.z = -cam.transform.position.z + transform.position.z;
 
@@ -41,27 +41,12 @@ public class Gun : MonoBehaviour
 
         Debug.DrawRay(transform.position, direction * 20f, Color.blue);
 
-        switch (axis)
-        {
-            case Axis.x:
-                if (!inverted)
-                    transform.right = direction; // Point x axis towards direction
-                else
-                    transform.right = -direction; // Point x axis towards inverted direction
-                break;
 
-            case Axis.y:
-                if (!inverted)
-                    transform.up = direction; // Point y axis towards direction
-                else
-                    transform.up = -direction; // Point y axis towards inverted direction
-                break;
+        Debug.Log(direction);
+        transform.up = direction; // Point x axis towards direction
+  
 
-            default:
-                break;
-        }
-
-
+        
         if (mousePosition.x < Screen.width/2)
         {
 
@@ -71,6 +56,7 @@ public class Gun : MonoBehaviour
         {
             gun.GetComponent<SpriteRenderer>().flipY = false;
         }
+        
     }
 
     private void OnDrawGizmos()

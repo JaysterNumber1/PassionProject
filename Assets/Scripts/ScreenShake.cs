@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ScreenShake : MonoBehaviour
@@ -7,26 +8,27 @@ public class ScreenShake : MonoBehaviour
     public bool start = false;
     public AnimationCurve curve;
     public float duration = 1.0f;
+    public Vector2 odist;
+    
 
-    private void Update()
+    public void Startshake()
     {
-        if(start)
-        {
-            start = false;
-            StopAllCoroutines();
-            StartCoroutine(Shaking());
-        }
+        StopAllCoroutines();
+        StartCoroutine(Shaking());
+        
     }
 
     IEnumerator Shaking()
     {
+        
         Vector3 startPosition = transform.localPosition;
         float elapsedTime = 0f;
         while(elapsedTime< duration)
         {
+            Debug.Log(odist);
             elapsedTime += Time.deltaTime;
             float strength = curve.Evaluate(elapsedTime/duration);
-            transform.localPosition = startPosition + Random.insideUnitSphere * strength;
+            transform.localPosition = startPosition + Random.insideUnitSphere * strength * (1/Mathf.Sqrt(odist.x*odist.x+odist.y*odist.y));
             yield return null;
         }
 

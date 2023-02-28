@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class Rocket : MonoBehaviour
 {
@@ -73,13 +74,13 @@ public class Rocket : MonoBehaviour
         GameObject expol = Instantiate(explode);
         expol.transform.position= this.gameObject.transform.position;
         Explosion();
-
         Destroy(rocket);
     }
 
     public void Explosion()
     {
-        shake.start = true;
+        shake.odist = player.transform.position - transform.position;
+        shake.Startshake();
         inexplosion = Physics2D.OverlapCircleAll(transform.position, exploradius);
 
         foreach (Collider2D o in inexplosion)
