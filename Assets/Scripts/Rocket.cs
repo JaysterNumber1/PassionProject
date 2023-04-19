@@ -9,6 +9,7 @@ public class Rocket : MonoBehaviour
     
     public GameObject rocket;
     private GameObject player;
+    private Rigidbody2D playerRB;
     public Rigidbody2D rb;
     public Vector2 dir;
     public float speed;
@@ -16,8 +17,8 @@ public class Rocket : MonoBehaviour
     public ScreenShake shake;
 
     Collider2D[] inexplosion = null;
-    public float exploradius = 5;
-    public float exploforce = 5;
+    public float exploradius = 10f;
+    public float exploforce = 10f;
 
     public float timer;
     public float rocketLife = 5f;
@@ -32,6 +33,7 @@ public class Rocket : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         player = GameObject.Find("Player");
+        playerRB = player.GetComponent<Rigidbody2D>();
         dir = player.GetComponent<PlayerMovement>().pos;
         dir -= new Vector2(Screen.width / 2, Screen.height / 2);
         //Debug.DrawLine(player.transform.position, dir);
@@ -86,7 +88,7 @@ public class Rocket : MonoBehaviour
         foreach (Collider2D o in inexplosion)
         {
             Rigidbody2D rb = o.GetComponent<Rigidbody2D>();
-            if (rb != null)
+            if (rb == playerRB)
             {
                 Vector2 distex = o.transform.position - transform.position;
                 if (distex.magnitude > 0)

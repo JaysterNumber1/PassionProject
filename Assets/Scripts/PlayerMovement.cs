@@ -18,9 +18,9 @@ public class PlayerMovement : MonoBehaviour
     public GameObject rocket;
 
     public GameObject clipManager;
-    
+
     public float acceleration = 20;
-    public float jumpSpeed= 20;
+    public float jumpSpeed = 20;
     public float move;
     public float jump;
     public float click;
@@ -31,14 +31,17 @@ public class PlayerMovement : MonoBehaviour
     public float maxWalkSpeed;
     public float maxSpeed;
     public float floorDrag;
+    public float lastXVelocity;
 
-    public float reloadShot;
-    public float timer;
-    public int shotCount =3;
+    public float shotCooldown;
+    public float cooldownTimer;
+    public int shotCount = 3;
     public float reloadGunTime = 1;
-    private float reloadTime;
-    public float timeFromClickGroundedTime;
-    private float timeFromClickGrounded;
+    public float reloadTimer;
+    public float subsequentBulletReloadTime = .3f;
+
+    //public float timeFromClickGroundedTime;
+    //private float timeFromClickGrounded;
 
     private bool canInteract;
 
@@ -61,36 +64,22 @@ public class PlayerMovement : MonoBehaviour
         input.Mouse.Position.performed += input => pos = input.ReadValue<Vector2>();
 
         input.Movement.Interact.performed += input => interact = input.ReadValue<float>();
-        if(interact == 0) canInteract= true;
+        if (interact == 0) canInteract = true;
 
         HandleMovement();
         HandleMouse();
+        ReloadGun();
 
-        if(isGrounded) timeFromClickGrounded += Time.deltaTime;
-        if (!isGrounded) { 
-            reloadTime = 0;
-            timeFromClickGrounded = 0;
-        }
-
-        else if (reloadTime < reloadGunTime && shotCount < clipManager.GetComponent<ClipManager>().maxBullets) reloadTime += Time.deltaTime;
-
-        if (isGrounded && reloadGunTime < reloadTime && shotCount < clipManager.GetComponent<ClipManager>().maxBullets && timeFromClickGrounded > timeFromClickGroundedTime)
-        {
-            player.GetComponent<PlayerMovement>().shotCount++;
-
-            player.GetComponent<PlayerMovement>().IncreaseShot();
-
-            reloadTime= 0;
-
-        }
 
     }
 
     void HandleMovement()
     {
-            isGrounded = (Physics2D.Raycast((new Vector2(this.transform.position.x, this.transform.position.y)), Vector3.down, 1f, 1 << LayerMask.NameToLayer("Ground"))); // raycast down to look for ground is not detecting ground? only works if allowing jump when grounded = false; // return "Ground" layer as layer
-            
-  
+        isGrounded = (Physics2D.Raycast((new Vector2(this.transform.position.x, this.transform.position.y)), Vector3.down, 1f, 1 << LayerMask.NameToLayer("Ground"))); // raycast down to look for ground is not detecting ground? only works if allowing jump when grounded = false; // return "Ground" layer as layer
+
+
+        #region Old Movement
+        /*
         //if grounded and trying to jump, jump
         if (isGrounded)
         {
@@ -116,30 +105,109 @@ public class PlayerMovement : MonoBehaviour
             Debug.DrawRay((new Vector2(this.transform.position.x, this.transform.position.y)), Vector3.down, Color.red, 1.0f);
         }
         //Debug.Log(rb.velocity.x);
- 
+        */
+        #endregion
+        #region New Movement
+        if (isGrounded)
+        {
+            if (move * rb.velocity.x > 0f)
+            {
+                rb.AddForce(new Vector2(move * acceleration, jumpSpeed));
+            }
+            else
+            {
+                if (move == 0)
+                {
+                   
+
+                    if (Mathf.Sign(rb.velocity.x) != Mathf.Sign(lastXVelocity)||lastXVelocity == 0)//insta stopping, need to adjust thresholds
+                    {
+
+                        rb.velocity = new Vector2(0, rb.velocity.y);
+                        lastXVelocity = 0;
+                        Debug.Log("Changes");
+                    } else
+                    {
+                        rb.AddForce(new Vector2(Mathf.Sign(rb.velocity.x) * -acceleration, jumpSpeed));
+                        lastXVelocity = rb.velocity.x;
+                    }
+                }
+                else
+                {
+                    rb.AddForce(new Vector2(Mathf.Sign(rb.velocity.x) * -1.5f * acceleration, jumpSpeed));
+                }
+            }
+            if (rb.velocity.x >= maxWalkSpeed || rb.velocity.x <= -maxWalkSpeed)
+            {
+                rb.velocity = new Vector2(maxWalkSpeed * Mathf.Sign(rb.velocity.x), rb.velocity.y);
+            }
+        }
+        #endregion
 
     }
-  
+
     void HandleMouse()
     {
-        if (click == 1 && shotCount!=0 && timer>=reloadShot)
+        if (click == 1 && shotCount > 0 && cooldownTimer >= shotCooldown)
         {
-            timeFromClickGrounded = 0;
+            //timeFromClickGrounded = 0; Not currently using
             Instantiate(rocket, new Vector3(player.transform.position.x, player.transform.position.y - .25f, player.transform.position.z), Quaternion.identity);
-            
+
             shotCount--;
 
             clipManager.GetComponent<ClipManager>().DecreaseShot();
 
             //click = 0;
-            timer = 0;
-        } else
-        if (timer < reloadShot)
+            cooldownTimer = 0;
+            reloadTimer = 0;
+        }
+        else
+        if (cooldownTimer < shotCooldown)
         {
-            timer += Time.deltaTime;
+            cooldownTimer += Time.deltaTime;
         }
     }
-    
+
+    private void ReloadGun()
+    {
+        #region Grounded Reload
+        //I don't like reloading only while grounded, I think general timing would be better.
+        /*if(isGrounded) timeFromClickGrounded += Time.deltaTime; //reloading while grounded
+        if (!isGrounded) { 
+            reloadTime = 0;
+            timeFromClickGrounded = 0;
+        }
+
+        else if (reloadTime < reloadGunTime && shotCount < clipManager.GetComponent<ClipManager>().maxBullets) reloadTime += Time.deltaTime;
+      
+
+        if (isGrounded && reloadGunTime < reloadTime && shotCount < clipManager.GetComponent<ClipManager>().maxBullets && timeFromClickGrounded > timeFromClickGroundedTime)
+        {
+            player.GetComponent<PlayerMovement>().shotCount++;
+
+            player.GetComponent<PlayerMovement>().IncreaseShot();
+
+            reloadTime= 0;
+
+        }  */
+        #endregion
+
+        #region Time Reload
+        if (reloadTimer >= reloadGunTime && shotCount < clipManager.GetComponent<ClipManager>().maxBullets)
+        {
+            player.GetComponent<PlayerMovement>().shotCount++;
+
+            player.GetComponent<PlayerMovement>().IncreaseShot();
+
+            reloadTimer = subsequentBulletReloadTime;
+        }
+        else if (reloadTimer < reloadGunTime)
+        {
+            reloadTimer += Time.deltaTime;
+        }
+        #endregion
+    }
+
     public void IncreaseShot()
     {
         clipManager.GetComponent<ClipManager>().IncreaseShot();
@@ -147,11 +215,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        Debug.Log(collision.gameObject.name);
+        //Debug.Log(collision.gameObject.name);
         if (interact == 1 && canInteract)
-        {        
-            canInteract= false;
-            if(collision.gameObject.tag == "Teleport")
+        {
+            canInteract = false;
+            if (collision.gameObject.tag == "Teleport")
             {
                 collision.gameObject.GetComponent<Teleport>().TeleportTo(this.gameObject);
                 if (shotCount < clipManager.GetComponent<ClipManager>().maxBullets)
@@ -160,11 +228,11 @@ public class PlayerMovement : MonoBehaviour
 
                     player.GetComponent<PlayerMovement>().IncreaseShot();
 
-                    reloadTime = 0;
+                    //reloadTime = 0; not using
 
                 }
             }
-            
+
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -173,13 +241,14 @@ public class PlayerMovement : MonoBehaviour
         {
             Destroy(collision.gameObject);
             clipManager.GetComponent<ClipManager>().addBullet();
-            Debug.Log("hihi");
+            //Debug.Log("hihi");
+
 
         }
+
+
+
+
+
     }
-
-
-
-
-
 }

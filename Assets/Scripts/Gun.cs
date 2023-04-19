@@ -42,7 +42,7 @@ public class Gun : MonoBehaviour
         Debug.DrawRay(transform.position, direction * 20f, Color.blue);
 
 
-        Debug.Log(direction);
+        //Debug.Log(direction);
         transform.up = direction; // Point x axis towards direction
   
 
