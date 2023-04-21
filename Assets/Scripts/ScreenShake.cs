@@ -25,7 +25,7 @@ public class ScreenShake : MonoBehaviour
         float elapsedTime = 0f;
         while(elapsedTime< duration)
         {
-            Debug.Log(odist);
+            //Debug.Log(odist);
             elapsedTime += Time.deltaTime;
             float strength = curve.Evaluate(elapsedTime/duration);
             transform.localPosition = startPosition + Random.insideUnitSphere * strength * (1/Mathf.Sqrt(odist.x*odist.x+odist.y*odist.y));

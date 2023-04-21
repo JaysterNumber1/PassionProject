@@ -50,7 +50,7 @@ public class ClipManager : MonoBehaviour
     {
         bullets = player.GetComponent<PlayerMovement>().shotCount;
 
-        Debug.Log((bullets));
+        //Debug.Log((bullets));
         if(GameObject.Find("Bullet" + (bullets)) != null)
         {
             bulletClone = GameObject.Find("Bullet" + (bullets));
@@ -65,7 +65,7 @@ public class ClipManager : MonoBehaviour
     public void addBullet()
     {
         maxBullets += 1;
-        Debug.Log((maxBullets));
+        //Debug.Log((maxBullets));
         int f = maxBullets;
         bulletClone = Instantiate(bullet, new Vector3(clipManager.transform.position.x + 2 * f * bullet.GetComponent<RectTransform>().rect.x, clipManager.transform.position.y, clipManager.transform.position.z), clipManager.transform.rotation, clipManager.transform);
         bulletClone.name = (bullet.name + f);

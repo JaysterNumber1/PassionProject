@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     public float interact;
     public Vector2 pos;
     [SerializeField] private bool isGrounded;
+    public bool blastJumping;
 
     public float maxWalkSpeed;
     public float maxSpeed;
@@ -76,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
     void HandleMovement()
     {
         isGrounded = (Physics2D.Raycast((new Vector2(this.transform.position.x, this.transform.position.y)), Vector3.down, 1f, 1 << LayerMask.NameToLayer("Ground"))); // raycast down to look for ground is not detecting ground? only works if allowing jump when grounded = false; // return "Ground" layer as layer
-
+        Debug.DrawLine(new Vector2(this.transform.position.x, this.transform.position.y), new Vector2(this.transform.position.x, this.transform.position.y-1), Color.red, 1 << LayerMask.NameToLayer("Ground"));
 
         #region Old Movement
         /*
@@ -110,40 +111,59 @@ public class PlayerMovement : MonoBehaviour
         #region New Movement
         if (isGrounded)
         {
+            
+
             if (move * rb.velocity.x > 0f)
             {
-                rb.AddForce(new Vector2(move * acceleration, jumpSpeed));
+                rb.AddForce(new Vector2(move * acceleration, 0));
             }
             else
             {
                 if (move == 0)
                 {
-                   
 
-                    if (Mathf.Sign(rb.velocity.x) != Mathf.Sign(lastXVelocity)||lastXVelocity == 0)//insta stopping, need to adjust thresholds
-                    {
-
-                        rb.velocity = new Vector2(0, rb.velocity.y);
-                        lastXVelocity = 0;
-                        Debug.Log("Changes");
-                    } else
-                    {
-                        rb.AddForce(new Vector2(Mathf.Sign(rb.velocity.x) * -acceleration, jumpSpeed));
-                        lastXVelocity = rb.velocity.x;
-                    }
                 }
                 else
                 {
-                    rb.AddForce(new Vector2(Mathf.Sign(rb.velocity.x) * -1.5f * acceleration, jumpSpeed));
+                    rb.AddForce(new Vector2(Mathf.Sign(rb.velocity.x) * -1.5f * acceleration, 0));
                 }
             }
-            if (rb.velocity.x >= maxWalkSpeed || rb.velocity.x <= -maxWalkSpeed)
+
+            
+
+            if (blastJumping)
             {
-                rb.velocity = new Vector2(maxWalkSpeed * Mathf.Sign(rb.velocity.x), rb.velocity.y);
+                rb.drag = .25f;
+               
             }
+            else
+            {
+                
+                rb.drag = 1;
+                if (rb.velocity.x >= maxWalkSpeed || rb.velocity.x <= -maxWalkSpeed)
+                {
+                    rb.velocity = new Vector2(maxWalkSpeed * Mathf.Sign(rb.velocity.x), 0);
+                }
+            }
+            if ((rb.velocity.x <= maxWalkSpeed || rb.velocity.x >= -maxWalkSpeed) && rb.velocity.y == 0)
+            {
+                blastJumping = false;
+            }
+        }
+        else
+        {
+            rb.drag = 0;
         }
         #endregion
 
+    }
+    public IEnumerator ChangeBlast()
+    {
+        yield return new WaitUntil(()=> rb.velocity.y != 0);
+     
+        Debug.Log("CALLED");
+
+        blastJumping = true;
     }
 
     void HandleMouse()

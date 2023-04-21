@@ -9,6 +9,7 @@ public class Rocket : MonoBehaviour
     
     public GameObject rocket;
     private GameObject player;
+    private PlayerMovement playerMove;
     private Rigidbody2D playerRB;
     public Rigidbody2D rb;
     public Vector2 dir;
@@ -34,7 +35,8 @@ public class Rocket : MonoBehaviour
 
         player = GameObject.Find("Player");
         playerRB = player.GetComponent<Rigidbody2D>();
-        dir = player.GetComponent<PlayerMovement>().pos;
+        playerMove = player.GetComponent<PlayerMovement>();
+        dir = playerMove.pos;
         dir -= new Vector2(Screen.width / 2, Screen.height / 2);
         //Debug.DrawLine(player.transform.position, dir);
         //dir.x -= player.transform.position.x;
@@ -94,7 +96,9 @@ public class Rocket : MonoBehaviour
                 if (distex.magnitude > 0)
                 {
                     rb.AddForce(distex.normalized * exploforce);
+                    StartCoroutine(playerMove.ChangeBlast());
                 }
+               
             }
         }
     }
