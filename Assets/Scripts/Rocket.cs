@@ -96,7 +96,9 @@ public class Rocket : MonoBehaviour
                 if (distex.magnitude > 0)
                 {
                     rb.AddForce(distex.normalized * exploforce);
-                    StartCoroutine(playerMove.ChangeBlast());
+                    playerMove.RunChangeBlast();
+                    
+
                 }
                
             }

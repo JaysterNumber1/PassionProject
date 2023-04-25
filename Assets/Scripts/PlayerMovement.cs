@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -27,7 +29,16 @@ public class PlayerMovement : MonoBehaviour
     public float interact;
     public Vector2 pos;
     [SerializeField] private bool isGrounded;
+    [SerializeField] private bool touchingLeftWall;
+    [SerializeField] private bool touchingRightWall;
     public bool blastJumping;
+
+    [SerializeField]
+    private float blastDrag = .5f;
+    [SerializeField]
+    private float normalDrag = 1f;
+  
+  
 
     public float maxWalkSpeed;
     public float maxSpeed;
@@ -54,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
         clipManager = GameObject.Find("GunClip");
         input = new Input();
         input.Enable();
+       
     }
 
     void FixedUpdate()
@@ -66,9 +78,10 @@ public class PlayerMovement : MonoBehaviour
 
         input.Movement.Interact.performed += input => interact = input.ReadValue<float>();
         if (interact == 0) canInteract = true;
-
-        HandleMovement();
         HandleMouse();
+       
+        
+        HandleMovement();
         ReloadGun();
 
 
@@ -76,8 +89,13 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleMovement()
     {
-        isGrounded = (Physics2D.Raycast((new Vector2(this.transform.position.x, this.transform.position.y)), Vector3.down, 1f, 1 << LayerMask.NameToLayer("Ground"))); // raycast down to look for ground is not detecting ground? only works if allowing jump when grounded = false; // return "Ground" layer as layer
-        Debug.DrawLine(new Vector2(this.transform.position.x, this.transform.position.y), new Vector2(this.transform.position.x, this.transform.position.y-1), Color.red, 1 << LayerMask.NameToLayer("Ground"));
+        isGrounded = (Physics2D.Raycast((new Vector2(this.transform.position.x, this.transform.position.y)), Vector3.down, 1f, 1 << LayerMask.NameToLayer("Ground"))); // raycast down to look for ground is not detecting ground? only works if allowing jump when grounded = false; // return "Ground" layer as layer\
+        touchingRightWall = (Physics2D.Raycast((new Vector2(this.transform.position.x, this.transform.position.y)), Vector3.right, .5f, 1 << LayerMask.NameToLayer("Ground")));
+        touchingLeftWall = (Physics2D.Raycast((new Vector2(this.transform.position.x, this.transform.position.y)), Vector3.left, .5f, 1 << LayerMask.NameToLayer("Ground")));
+
+        Debug.DrawLine(new Vector2(this.transform.position.x, this.transform.position.y), new Vector2(this.transform.position.x, this.transform.position.y-1), Color.red, 1);
+        Debug.DrawLine(new Vector2(this.transform.position.x, this.transform.position.y), new Vector2(this.transform.position.x+.5f, this.transform.position.y ), Color.blue, 1);
+        Debug.DrawLine(new Vector2(this.transform.position.x, this.transform.position.y), new Vector2(this.transform.position.x - .5f, this.transform.position.y), Color.magenta, 1);
 
         #region Old Movement
         /*
@@ -111,9 +129,15 @@ public class PlayerMovement : MonoBehaviour
         #region New Movement
         if (isGrounded)
         {
-            
+            if (touchingLeftWall && move == -1)
+            {
+                move = 0;
+            } else if(touchingRightWall && move == 1)
+            {
+                move = 0;
+            }
 
-            if (move * rb.velocity.x > 0f)
+            if (move!=0&&!blastJumping)
             {
                 rb.AddForce(new Vector2(move * acceleration, 0));
             }
@@ -121,7 +145,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (move == 0)
                 {
-
+                    
                 }
                 else
                 {
@@ -133,38 +157,54 @@ public class PlayerMovement : MonoBehaviour
 
             if (blastJumping)
             {
-                rb.drag = .25f;
+                rb.drag = blastDrag;
+                
                
             }
             else
             {
+              
+                    rb.drag = normalDrag;
                 
-                rb.drag = 1;
+                if(move == 1 || move == -1)
+                {
+                    rb.drag = 0;
+                }
                 if (rb.velocity.x >= maxWalkSpeed || rb.velocity.x <= -maxWalkSpeed)
                 {
                     rb.velocity = new Vector2(maxWalkSpeed * Mathf.Sign(rb.velocity.x), 0);
                 }
+                
             }
-            if ((rb.velocity.x <= maxWalkSpeed || rb.velocity.x >= -maxWalkSpeed) && rb.velocity.y == 0)
+            if ((rb.velocity.x <= maxWalkSpeed && rb.velocity.x >= -maxWalkSpeed) && rb.velocity.y==0)
             {
+                
                 blastJumping = false;
             }
         }
         else
         {
+           
             rb.drag = 0;
         }
         #endregion
 
     }
-    public IEnumerator ChangeBlast()
+    
+   
+    private IEnumerator ChangeBlast()
     {
-        yield return new WaitUntil(()=> rb.velocity.y != 0);
-     
-        Debug.Log("CALLED");
+        yield return new WaitUntil(()=>!isGrounded);
 
         blastJumping = true;
+        
     }
+    public void RunChangeBlast()
+    {
+        StartCoroutine(ChangeBlast());
+    }
+
+   
 
     void HandleMouse()
     {
