@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     public float acceleration = 20;
     public float jumpSpeed = 20;
     public float move;
+    public float storeMove;
     public float jump;
     public float click;
     public float interact;
@@ -32,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool touchingLeftWall;
     [SerializeField] private bool touchingRightWall;
     public bool blastJumping;
+  
 
     [SerializeField]
     private float blastDrag = .5f;
@@ -41,9 +43,8 @@ public class PlayerMovement : MonoBehaviour
   
 
     public float maxWalkSpeed;
-    public float maxSpeed;
-    public float floorDrag;
-    public float lastXVelocity;
+    
+    public float maxAirSpeed;
 
     public float shotCooldown;
     public float cooldownTimer;
@@ -70,7 +71,8 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        input.Movement.Side.performed += input => move = input.ReadValue<float>();
+        input.Movement.Side.performed += input => storeMove = input.ReadValue<float>();
+        move = storeMove;
         input.Movement.Jump.performed += input => jump = input.ReadValue<float>();
 
         input.Mouse.Click.performed += input => click = input.ReadValue<float>();
@@ -79,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
         input.Movement.Interact.performed += input => interact = input.ReadValue<float>();
         if (interact == 0) canInteract = true;
         HandleMouse();
-       
+
         
         HandleMovement();
         ReloadGun();
@@ -127,65 +129,95 @@ public class PlayerMovement : MonoBehaviour
         */
         #endregion
         #region New Movement
+        
+        if (touchingLeftWall && move == -1)
+        {
+            
+            move = 0;
+        }
+        else if (touchingRightWall && move == 1)
+        {
+            move = 0;
+        }
+        else if(!touchingLeftWall&&!touchingRightWall)
+        {
+           
+            move = storeMove;
+        }
+
         if (isGrounded)
         {
-            if (touchingLeftWall && move == -1)
-            {
-                move = 0;
-            } else if(touchingRightWall && move == 1)
-            {
-                move = 0;
-            }
+            
 
-            if (move!=0&&!blastJumping)
-            {
-                rb.AddForce(new Vector2(move * acceleration, 0));
-            }
-            else
-            {
-                if (move == 0)
-                {
-                    
-                }
-                else
-                {
-                    rb.AddForce(new Vector2(Mathf.Sign(rb.velocity.x) * -1.5f * acceleration, 0));
-                }
-            }
+           
 
             
 
             if (blastJumping)
             {
                 rb.drag = blastDrag;
-                
-               
+                               
             }
             else
             {
               
-                    rb.drag = normalDrag;
-                
-                if(move == 1 || move == -1)
-                {
-                    rb.drag = 0;
-                }
+                rb.drag = normalDrag;
+
                 if (rb.velocity.x >= maxWalkSpeed || rb.velocity.x <= -maxWalkSpeed)
                 {
                     rb.velocity = new Vector2(maxWalkSpeed * Mathf.Sign(rb.velocity.x), 0);
                 }
+
+                if (move == 1 || move == -1)
+                {
+                    rb.drag = 0;
+                }
+              
                 
             }
-            if ((rb.velocity.x <= maxWalkSpeed && rb.velocity.x >= -maxWalkSpeed) && rb.velocity.y==0)
+            if (((rb.velocity.x <= maxWalkSpeed && rb.velocity.x >= -maxWalkSpeed))&& rb.velocity.y==0 )
             {
                 
                 blastJumping = false;
             }
+
+            if (move != 0 && !blastJumping)
+            {
+                rb.AddForce(new Vector2(move * acceleration, 0));
+            }
+            else 
+            {
+                if (move !=0 && Mathf.Sign(move)!=Mathf.Sign(rb.velocity.x)&&rb.velocity.x!=0)
+                {
+
+                
+                    rb.AddForce(new Vector2(move * 1.5f * acceleration, 0));
+                }
+            } 
+            
+            if(jump != 0)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jump * jumpSpeed);
+            }
         }
         else
         {
-           
             rb.drag = 0;
+
+            if((rb.velocity.x<= maxAirSpeed && rb.velocity.x >= -maxAirSpeed)) //can strafe normally
+            {
+                rb.AddForce(new Vector2(move * acceleration, 0));
+            }
+            else if (move != 0 && Mathf.Sign(move) != Mathf.Sign(rb.velocity.x) && rb.velocity.x != 0)
+            {
+
+
+                rb.AddForce(new Vector2(move * 1.5f * acceleration, 0));
+            }
+            
+
+            
+            
         }
         #endregion
 
