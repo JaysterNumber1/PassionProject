@@ -14,12 +14,16 @@ public class PlayerMovement : MonoBehaviour
     private Input input;
 
     public GameObject player;
+    public SpriteRenderer playerSprite;
 
     private Rigidbody2D rb;
 
     public GameObject rocket;
 
     public GameObject clipManager;
+
+    public GameObject gun;
+    public SpriteRenderer gunSprite;
 
     public float acceleration = 20;
     public float jumpSpeed = 20;
@@ -64,7 +68,10 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         clipManager = GameObject.Find("GunClip");
-        input = new Input();
+        gun = GameObject.Find("Gun");
+        gunSprite = gun.GetComponentInChildren<SpriteRenderer>();
+        playerSprite = player.GetComponentInChildren<SpriteRenderer>();
+       input = new Input();
         input.Enable();
        
     }
@@ -243,7 +250,7 @@ public class PlayerMovement : MonoBehaviour
         if (click == 1 && shotCount > 0 && cooldownTimer >= shotCooldown)
         {
             //timeFromClickGrounded = 0; Not currently using
-            Instantiate(rocket, new Vector3(player.transform.position.x, player.transform.position.y - .25f, player.transform.position.z), Quaternion.identity);
+            Instantiate(rocket, gun.transform.position, Quaternion.identity);
 
             shotCount--;
 
@@ -257,6 +264,16 @@ public class PlayerMovement : MonoBehaviour
         if (cooldownTimer < shotCooldown)
         {
             cooldownTimer += Time.deltaTime;
+        }
+        if(rb.velocity.x > 0)
+        {
+            playerSprite.flipX = false;
+
+        }
+        else if (rb.velocity.x<0)
+        {
+            playerSprite.flipX = true;
+
         }
     }
 

@@ -86,7 +86,8 @@ public class Rocket : MonoBehaviour
         shake.odist = player.transform.position - transform.position;
         shake.Startshake();
         inexplosion = Physics2D.OverlapCircleAll(transform.position, exploradius);
-
+        
+        rocket.GetComponent<AudioSource>().Play();
         foreach (Collider2D o in inexplosion)
         {
             Rigidbody2D rb = o.GetComponent<Rigidbody2D>();
