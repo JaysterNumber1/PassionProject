@@ -19,18 +19,23 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
 
     public GameObject rocket;
+    public GameObject slowRocket;
+
+
 
     public GameObject clipManager;
 
     public GameObject gun;
     public SpriteRenderer gunSprite;
+    public GameObject bulletSpawn;
 
     public float acceleration = 20;
     public float jumpSpeed = 20;
     public float move;
     public float storeMove;
     public float jump;
-    public float click;
+    public float leftClick;
+    public float rightClick;
     public float interact;
     public Vector2 pos;
     [SerializeField] private bool isGrounded;
@@ -82,7 +87,9 @@ public class PlayerMovement : MonoBehaviour
         move = storeMove;
         input.Movement.Jump.performed += input => jump = input.ReadValue<float>();
 
-        input.Mouse.Click.performed += input => click = input.ReadValue<float>();
+        input.Mouse.LeftClick.performed += input => leftClick = input.ReadValue<float>();
+        input.Mouse.RightClick.performed += input => rightClick = input.ReadValue<float>();
+        
         input.Mouse.Position.performed += input => pos = input.ReadValue<Vector2>();
 
         input.Movement.Interact.performed += input => interact = input.ReadValue<float>();
@@ -247,10 +254,10 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleMouse()
     {
-        if (click == 1 && shotCount > 0 && cooldownTimer >= shotCooldown)
+        if (leftClick == 1 && shotCount > 0 && cooldownTimer >= shotCooldown)
         {
             //timeFromClickGrounded = 0; Not currently using
-            Instantiate(rocket, gun.transform.position, Quaternion.identity);
+            Instantiate(rocket, bulletSpawn.transform.position, Quaternion.identity);
 
             shotCount--;
 
@@ -260,11 +267,23 @@ public class PlayerMovement : MonoBehaviour
             cooldownTimer = 0;
             reloadTimer = 0;
         }
-        else
-        if (cooldownTimer < shotCooldown)
+        else if(rightClick == 1 && shotCount > 0 && cooldownTimer >= shotCooldown)
+        {
+            Instantiate(slowRocket, bulletSpawn.transform.position, Quaternion.identity);
+
+            shotCount--;
+
+            clipManager.GetComponent<ClipManager>().DecreaseShot();
+
+            //click = 0;
+            cooldownTimer = 0;
+            reloadTimer = 0;
+        }
+        else if (cooldownTimer < shotCooldown)
         {
             cooldownTimer += Time.deltaTime;
         }
+
         if(rb.velocity.x > 0)
         {
             playerSprite.flipX = false;

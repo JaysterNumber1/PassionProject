@@ -51,7 +51,7 @@ public class Gun : MonoBehaviour
         if (mousePosition.x < Screen.width/2)
         {
 
-            gun.GetComponent<SpriteRenderer>().flipY = true;
+           gun.GetComponent<SpriteRenderer>().flipY = true;
         }
         else
         {

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7092614421565308930}
   - component: {fileID: 441970547586559433}
   m_Layer: 7
-  m_Name: Rocket
+  m_Name: SlowRocket
   m_TagString: Rocket
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,11 +51,11 @@ MonoBehaviour:
   rocket: {fileID: 994646742700445049}
   rb: {fileID: 4010796633323729805}
   dir: {x: 0, y: 0}
-  speed: 30
+  speed: 15
   explode: {fileID: 4548943561022408230, guid: f32a3907a90636f4db63c2e368958dce, type: 3}
   shake: {fileID: 0}
-  exploradius: 3
-  exploforce: 500
+  exploradius: 5
+  exploforce: 750
   timer: 0
   rocketLife: 2.04
 --- !u!50 &4010796633323729805
