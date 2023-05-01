@@ -8,6 +8,7 @@ TagManager:
   - Ground
   - Teleport
   - extraBullet
+  - Explosion
   layers:
   - Default
   - TransparentFX
