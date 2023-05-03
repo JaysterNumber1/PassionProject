@@ -80,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
         input.Enable();
        
     }
-
+    
     void FixedUpdate()
     {
         input.Movement.Side.performed += input => storeMove = input.ReadValue<float>();
@@ -344,6 +344,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collision)
     {
         //Debug.Log(collision.gameObject.name);
+        /*
         if (interact == 1 && canInteract)
         {
             canInteract = false;
@@ -361,6 +362,11 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
+        }
+        */
+        if (collision.gameObject.tag == "Die")
+        {
+            Destroy(this.gameObject);
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)

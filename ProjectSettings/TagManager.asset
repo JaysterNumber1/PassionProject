@@ -9,6 +9,7 @@ TagManager:
   - Teleport
   - extraBullet
   - Explosion
+  - Die
   layers:
   - Default
   - TransparentFX
