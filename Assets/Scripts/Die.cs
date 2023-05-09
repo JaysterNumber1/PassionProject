@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Die : MonoBehaviour
+public static class Die 
 {
-    private void OnTriggerEnter2D(Collider2D collision)
+     
+    
+    
+    public static void PlayerDie()
     {
-        Debug.Log("Die " + collision.gameObject.name);
+
     }
+
 }

@@ -23,7 +23,7 @@ public class SpawnEnemy : MonoBehaviour
         if(timertime > timerlength)
         {
             timertime = 0;
-            if(timerlength>1) timerlength /= 1.1f;
+            if (timerlength > 0.75) { timerlength /= 1.1f; } else { timerlength = 0.75f; }
             spawn();
             Debug.Log(timerlength);
         }

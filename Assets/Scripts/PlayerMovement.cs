@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     #region Variables
 
     public static PlayerMovement instance;
+    public OnGameLoad levelManager;
 
     private Input input;
 
@@ -61,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
     public float reloadGunTime = 1;
     public float reloadTimer;
     public float subsequentBulletReloadTime = .3f;
+    public float killBarrier = -50f;
 
     //public float timeFromClickGroundedTime;
     //private float timeFromClickGrounded;
@@ -233,6 +235,10 @@ public class PlayerMovement : MonoBehaviour
             
             
         }
+        if (player.transform.position.y <= killBarrier)
+        {
+            PlayerDie();
+        }
         #endregion
 
     }
@@ -366,9 +372,21 @@ public class PlayerMovement : MonoBehaviour
         */
         if (collision.gameObject.tag == "Die")
         {
-            Destroy(this.gameObject);
+            PlayerDie();
         }
     }
+
+    public void PlayerDie()
+    {
+        levelManager.Die();
+        player.GetComponent<PlayerMovement>().enabled = false;
+    }
+
+  
+
+
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "extraBullet")

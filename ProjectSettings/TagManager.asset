@@ -10,6 +10,7 @@ TagManager:
   - extraBullet
   - Explosion
   - Die
+  - ForceField
   layers:
   - Default
   - TransparentFX

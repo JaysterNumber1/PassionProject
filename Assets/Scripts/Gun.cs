@@ -11,8 +11,9 @@ public class Gun : MonoBehaviour
     public GameObject player;
     public GameObject gun;
 
-    private Vector3 mousePosition;
+    private PlayerMovement mouse;
     private Vector3 lookAtPosition;
+    private Vector2 dir;
 
     private void Start()
     {
@@ -28,27 +29,31 @@ public class Gun : MonoBehaviour
             return;
         }
         // store mouse pixel coordinates
-        mousePosition = player.GetComponent<PlayerMovement>().pos;
+        mouse = player.GetComponent<PlayerMovement>();
 
         // distance in z between this object and the camera
         // so it always align with the object
-        mousePosition.z = -cam.transform.position.z + transform.position.z;
+
+        dir = mouse.pos;
+        dir -= new Vector2(Screen.width/2, Screen.height/2); 
 
         // transform mousePosition from screen pixels to world position
-        lookAtPosition = cam.ScreenToWorldPoint(mousePosition);
+        //lookAtPosition = cam.ScreenToWorldPoint(dir);
 
         // Calculate normalized direction
-        Vector2 direction = (lookAtPosition - transform.position).normalized;
+        //Vector2 direction = (dir - transform.position).normalized;
 
-        Debug.DrawRay(transform.position, direction * 20f, Color.blue);
+        Debug.DrawRay(transform.position, dir * 20f, Color.blue);
 
 
         //Debug.Log(direction);
-        transform.up = direction; // Point x axis towards direction
+        //transform.up = direction; // Point x axis towards direction
+
+        gun.transform.eulerAngles = new Vector3(0,0, Mathf.Atan2(dir.y, dir.x) * 180 / Mathf.PI);
   
 
         
-        if (mousePosition.x < Screen.width/2)
+        if (mouse.pos.x < Screen.width/2)
         {
 
            gun.GetComponent<SpriteRenderer>().flipY = true;
